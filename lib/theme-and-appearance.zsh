@@ -21,6 +21,8 @@ if command diff --color /dev/null{,} &>/dev/null; then
 fi
 
 # Don't set ls coloring if disabled
+[ -z ${DISABLE_LS_COLORS+x} ] &&
+  DISABLE_LS_COLORS='false'
 [[ "$DISABLE_LS_COLORS" != true ]] || return 0
 
 # Default coloring for BSD-based ls
