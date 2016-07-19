@@ -1,4 +1,4 @@
-_p_ExitCode="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
+_p_ExitCode="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}%? )"
 PROMPT="$_p_ExitCode %{$fg[cyan]%}%c%{$reset_color%}"
 PROMPT+=' $(git_prompt_info)'
 
