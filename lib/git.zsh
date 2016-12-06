@@ -6,10 +6,28 @@
 # We wrap in a local function instead of exporting the variable directly in
 # order to avoid interfering with manually-run git commands by the user.
 function __git_prompt_git() {
-  GIT_OPTIONAL_LOCKS=0 command git "$@"
+  local GitApp="$(__GitApp)"
+  GIT_OPTIONAL_LOCKS=0 command "${GitApp}" "$@"
 }
 
+__GitApp() (
+  [ -z "${GitApp+x}" ] ||
+  {
+    echo "${GitApp}"
+    return
+  }
+
+  GitAlt="$(git config --get zsh.git-alt)"
+  if [[ "${GitAlt}" == "" ]]; then
+    echo 'git'
+  else
+    echo "${GitAlt}"
+  fi
+)
+
 function git_prompt_info() {
+  __git_prompt_git rev-parse --is-inside-git-dir 2> /dev/null > /dev/null ||
+    return 0
   # If we are on a folder not tracked by git, get out.
   # Otherwise, check for hide-info at global and local repository level
   if ! __git_prompt_git rev-parse --git-dir &> /dev/null \
@@ -39,9 +57,10 @@ function git_prompt_info() {
 # Checks if working tree is dirty
 function parse_git_dirty() {
   local STATUS
+  local HideDirty="$(__git_prompt_git config --get oh-my-zsh.hide-dirty)"
   local -a FLAGS
   FLAGS=('--porcelain')
-  if [[ "$(__git_prompt_git config --get oh-my-zsh.hide-dirty)" != "1" ]]; then
+  if [[ "${HideDirty}" != "1" ]]; then
     if [[ "${DISABLE_UNTRACKED_FILES_DIRTY:-}" == "true" ]]; then
       FLAGS+='--untracked-files=no'
     fi
@@ -167,7 +186,8 @@ function git_prompt_long_sha() {
 }
 
 function git_prompt_status() {
-  [[ "$(__git_prompt_git config --get oh-my-zsh.hide-status 2>/dev/null)" = 1 ]] && return
+  local HideStatus="$(__git_prompt_git config --get oh-my-zsh.hide-status 2>/dev/null)"
+  [[ "${HideStatus}" = "1" ]] && return
 
   # Maps a git status prefix to an internal constant
   # This cannot use the prompt constants, as they may be empty
