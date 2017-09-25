@@ -21,9 +21,6 @@ setopt multios              # enable redirect to multiple streams: echo >file1 >
 setopt long_list_jobs       # show long list format job notifications
 setopt interactivecomments  # recognize comments
 
-env_default 'PAGER' 'less'
-env_default 'LESS' '-R'
-
 ## super user alias
 alias _='sudo '
 
