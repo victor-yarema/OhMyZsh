@@ -33,6 +33,9 @@ function git_prompt_info() {
   echo "${ZSH_THEME_GIT_PROMPT_PREFIX}${ref:gs/%/%%}${upstream:gs/%/%%}$(parse_git_dirty)${ZSH_THEME_GIT_PROMPT_SUFFIX}"
 }
 
+[ -z ${DISABLE_UNTRACKED_FILES_DIRTY+x} ] &&
+	DISABLE_UNTRACKED_FILES_DIRTY='false'
+
 # Checks if working tree is dirty
 function parse_git_dirty() {
   local STATUS
