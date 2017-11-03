@@ -29,6 +29,8 @@ fi
 export LSCOLORS="Gxfxcxdxbxegedabagacad"
 
 # Default coloring for GNU-based ls
+[ -z ${LS_COLORS+x} ] &&
+  LS_COLORS=''
 if [[ -z "$LS_COLORS" ]]; then
   # Define LS_COLORS via dircolors if available. Otherwise, set a default
   # equivalent to LSCOLORS (generated via https://geoff.greer.fm/lscolors)
