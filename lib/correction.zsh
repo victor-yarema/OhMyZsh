@@ -1,3 +1,5 @@
+[ -z ${ENABLE_CORRECTION+x} ] &&
+	ENABLE_CORRECTION='false'
 if [[ "$ENABLE_CORRECTION" == "true" ]]; then
   alias cp='nocorrect cp'
   alias man='nocorrect man'
