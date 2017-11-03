@@ -52,6 +52,8 @@ unset -f omz_f
 
 # Set ZSH_CACHE_DIR to the path where cache files should be created
 # or else we will use the default cache/
+[ -z ${ZSH_CACHE_DIR+x} ] &&
+	ZSH_CACHE_DIR=''
 if [[ -z "$ZSH_CACHE_DIR" ]]; then
   ZSH_CACHE_DIR="$ZSH/cache"
 fi
@@ -78,6 +80,8 @@ autoload -U compaudit compinit zrecompile
 
 # Set ZSH_CUSTOM to the path where your custom config files
 # and plugins exists, or else we will use the default custom/
+[ -z ${ZSH_CUSTOM+x} ] &&
+	ZSH_CUSTOM=''
 if [[ -z "$ZSH_CUSTOM" ]]; then
     ZSH_CUSTOM="$ZSH/custom"
 fi
@@ -110,6 +114,8 @@ else
 fi
 
 # Save the location of the current completion dump file.
+[ -z ${ZSH_COMPDUMP+x} ] &&
+	ZSH_COMPDUMP=''
 if [[ -z "$ZSH_COMPDUMP" ]]; then
   ZSH_COMPDUMP="${ZDOTDIR:-$HOME}/.zcompdump-${SHORT_HOST}-${ZSH_VERSION}"
 fi
