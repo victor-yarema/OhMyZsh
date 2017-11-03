@@ -1,3 +1,6 @@
+[ -z ${HISTFILE+x} ] &&
+	HISTFILE=''
+
 ## History wrapper
 function omz_history {
   local clear list
