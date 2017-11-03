@@ -41,6 +41,8 @@ function title {
 ZSH_THEME_TERM_TAB_TITLE_IDLE="%15<..<%~%<<" #15 char left truncated PWD
 ZSH_THEME_TERM_TITLE_IDLE="%n@%m:%~"
 # Avoid duplication of directory in terminals with independent dir display
+[ -z ${TERM_PROGRAM+x} ] &&
+	TERM_PROGRAM=''
 if [[ "$TERM_PROGRAM" == Apple_Terminal ]]; then
   ZSH_THEME_TERM_TITLE_IDLE="%n@%m"
 fi
