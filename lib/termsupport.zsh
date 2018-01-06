@@ -123,6 +123,13 @@ fi
 #
 # As of May 2021 mlterm, PuTTY, rxvt, screen, termux & xterm simply ignore the unknown OSC.
 
+[ -z ${INSIDE_EMACS+x} ] &&
+  INSIDE_EMACS=''
+[ -z ${SSH_CLIENT+x} ] &&
+  SSH_CLIENT=''
+[ -z ${SSH_TTY+x} ] &&
+  SSH_TTY=''
+
 # Don't define the function if we're inside Emacs or in an SSH session (#11696)
 if [[ -n "$INSIDE_EMACS" || -n "$SSH_CLIENT" || -n "$SSH_TTY" ]]; then
   return
