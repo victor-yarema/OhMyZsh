@@ -131,6 +131,8 @@ if ! command grep -q -Fx "$zcompdump_revision" "$ZSH_COMPDUMP" 2>/dev/null \
   zcompdump_refresh=1
 fi
 
+[ -z ${ZSH_DISABLE_COMPFIX+x} ] &&
+	ZSH_DISABLE_COMPFIX=''
 if [[ "$ZSH_DISABLE_COMPFIX" != true ]]; then
   source "$ZSH/lib/compfix.zsh"
   # Load only from secure directories
