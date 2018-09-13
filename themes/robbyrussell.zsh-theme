@@ -1,6 +1,8 @@
-local Host="%{$fg[white]%}@%M"
+local User="%(!.%{%F{yellow}%}.)$USER"
+local Host="%{$fg[white]%}%M"
+local UserAtHost="${User}@${Host}"
 _p_ExitCode="%(?:%{$fg_bold[green]%}0:%{$fg_bold[red]%}%?)"
-PROMPT="${Host} $_p_ExitCode %{$bg[blue]$fg[white]%}%~%{$reset_color%}"
+PROMPT="${UserAtHost} $_p_ExitCode %{$bg[blue]$fg[white]%}%~%{$reset_color%}"
 PROMPT+=' $(git_prompt_info)'
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}git:(%{$fg[red]%}"
