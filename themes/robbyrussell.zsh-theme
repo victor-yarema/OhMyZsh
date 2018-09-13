@@ -1,4 +1,5 @@
-PROMPT="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}%? ) %{$fg[cyan]%}%c%{$reset_color%}"
+local Host="%{$fg[white]%}@%M"
+PROMPT="${Host} %(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}%? ) %{$fg[cyan]%}%c%{$reset_color%}"
 PROMPT+=' $(git_prompt_info)'
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}git:(%{$fg[red]%}"
