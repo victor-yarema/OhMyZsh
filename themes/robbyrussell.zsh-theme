@@ -1,6 +1,6 @@
 _p_Host="%{$fg[white]%}@%M"
 _p_ExitCode="%(?:%{$fg_bold[green]%}%1{➜%} :%{$fg_bold[red]%}%1{%?%} )"
-PROMPT="$_p_Host $_p_ExitCode %{$fg[cyan]%}%~%{$reset_color%}"
+PROMPT="$_p_Host $_p_ExitCode %{$bg[blue]$fg[white]%}%~%{$reset_color%}"
 PROMPT+=' $(git_prompt_info)'
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}git:(%{$fg[red]%}"
