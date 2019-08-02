@@ -13,13 +13,13 @@
 #
 # You can tweak the install behavior by setting variables when running the script. For
 # example, to change the path to the Oh My Zsh repository:
-#   ZSH=~/.zsh sh install.sh
+#   OhMyZshDir=~/.zsh sh install.sh
 #
 # Respects the following environment variables:
 #   ZDOTDIR - path to Zsh dotfiles directory (default: unset). See [1][2]
 #             [1] https://zsh.sourceforge.io/Doc/Release/Parameters.html#index-ZDOTDIR
 #             [2] https://zsh.sourceforge.io/Doc/Release/Files.html#index-ZDOTDIR_002c-use-of
-#   ZSH     - path to the Oh My Zsh repository folder (default: $HOME/.oh-my-zsh)
+#   OhMyZshDir - path to the Oh My Zsh repository folder (default: $HOME/.oh-my-zsh)
 #   REPO    - name of the GitHub repo to install from (default: ohmyzsh/ohmyzsh)
 #   REMOTE  - full remote URL of the git repo to install (default: GitHub via HTTPS)
 #   BRANCH  - branch to check out immediately after install (default: master)
@@ -53,20 +53,12 @@ HOME="${HOME:-$(getent passwd $USER 2>/dev/null | cut -d: -f6)}"
 HOME="${HOME:-$(eval echo ~$USER)}"
 
 
-# Track if $ZSH was provided
-custom_zsh=${ZSH:+yes}
+# Track if $OhMyZshDir was provided
+custom_zsh=${OhMyZshDir:+yes}
 
 # Use $zdot to keep track of where the directory is for zsh dotfiles
 # To check if $ZDOTDIR was provided, explicitly check for $ZDOTDIR
 zdot="${ZDOTDIR:-$HOME}"
-
-# Default value for $ZSH
-# a) if $ZDOTDIR is supplied and not $HOME: $ZDOTDIR/ohmyzsh
-# b) otherwise, $HOME/.oh-my-zsh
-if [ -n "$ZDOTDIR" ] && [ "$ZDOTDIR" != "$HOME" ]; then
-  ZSH="${ZSH:-$ZDOTDIR/ohmyzsh}"
-fi
-ZSH="${ZSH:-$HOME/.oh-my-zsh}"
 
 # Default settings
 REPO=${REPO:-victor-yarema/OhMyZsh}
@@ -303,7 +295,7 @@ setup_ohmyzsh() {
   fi
 
   # Manual clone with git config options to support git < v1.7.2
-  git init --quiet "$ZSH" && cd "$ZSH" \
+  git init --quiet "$OhMyZshDir" && cd "$OhMyZshDir" \
   && git config core.eol lf \
   && git config core.autocrlf false \
   && git config fsck.zeroPaddedFilemode ignore \
@@ -314,9 +306,9 @@ setup_ohmyzsh() {
   && git remote add origin "$REMOTE" \
   && git fetch --depth=64 origin \
   && git checkout -b "$BRANCH" "origin/$BRANCH" || {
-    [ ! -d "$ZSH" ] || {
+    [ ! -d "$OhMyZshDir" ] || {
       cd -
-      rm -rf "$ZSH" 2>/dev/null
+      rm -rf "$OhMyZshDir" 2>/dev/null
     }
     fmt_error "git clone of oh-my-zsh repo failed"
     exit 1
@@ -359,14 +351,14 @@ setup_zshrc() {
 
   echo "${FMT_GREEN}Using the Oh My Zsh template file and adding it to $zdot/.zshrc.${FMT_RESET}"
 
-  # Modify $ZSH variable in .zshrc directory to use the literal $ZDOTDIR or $HOME
-  omz="$ZSH"
+  # Modify $OhMyZshDir variable in .zshrc directory to use the literal $ZDOTDIR or $HOME
+  omz="$OhMyZshDir"
   if [ -n "$ZDOTDIR" ] && [ "$ZDOTDIR" != "$HOME" ]; then
     omz=$(echo "$omz" | sed "s|^$ZDOTDIR/|\$ZDOTDIR/|")
   fi
   omz=$(echo "$omz" | sed "s|^$HOME/|\$HOME/|")
 
-  sed "s|^export ZSH=.*$|export ZSH=\"${omz}\"|" "$ZSH/templates/zshrc.zsh-template" > "$zdot/.zshrc-omztemp"
+  sed "s|^export OhMyZshDir=.*$|export OhMyZshDir=\"${omz}\"|" "$OhMyZshDir/templates/zshrc.zsh-template" > "$zdot/.zshrc-omztemp"
   mv -f "$zdot/.zshrc-omztemp" "$zdot/.zshrc"
 
   echo
@@ -504,20 +496,20 @@ main() {
     exit 1
   fi
 
-  if [ -d "$ZSH" ]; then
-    echo "${FMT_YELLOW}The \$ZSH folder already exists ($ZSH).${FMT_RESET}"
+  if [ -d "$OhMyZshDir" ]; then
+    echo "${FMT_YELLOW}The \$OhMyZshDir folder already exists ($OhMyZshDir).${FMT_RESET}"
     if [ "$custom_zsh" = yes ]; then
       cat <<EOF
 
-You ran the installer with the \$ZSH setting or the \$ZSH variable is
+You ran the installer with the \$OhMyZshDir setting or the \$OhMyZshDir variable is
 exported. You have 3 options:
 
-1. Unset the ZSH variable when calling the installer:
-   $(fmt_code "ZSH= sh install.sh")
+1. Unset the OhMyZshDir variable when calling the installer:
+   $(fmt_code "OhMyZshDir= sh install.sh")
 2. Install Oh My Zsh to a directory that doesn't exist yet:
-   $(fmt_code "ZSH=path/to/new/ohmyzsh/folder sh install.sh")
+   $(fmt_code "OhMyZshDir=path/to/new/ohmyzsh/folder sh install.sh")
 3. (Caution) If the folder doesn't contain important information,
-   you can just remove it with $(fmt_code "rm -r $ZSH")
+   you can just remove it with $(fmt_code "rm -r $OhMyZshDir")
 
 EOF
     else
