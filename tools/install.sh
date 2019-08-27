@@ -524,7 +524,6 @@ EOF
   fi
 
   setup_ohmyzsh
-  setup_shell
 
   print_success
 
