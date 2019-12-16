@@ -491,10 +491,10 @@ main() {
 
   setup_color
 
-  if ! command_exists zsh; then
+  command_exists zsh || {
     echo "${FMT_YELLOW}Zsh is not installed.${FMT_RESET} Please install zsh first."
     exit 1
-  fi
+  }
 
   if [ -d "$OhMyZshDir" ]; then
     echo "${FMT_YELLOW}The \$OhMyZshDir folder already exists ($OhMyZshDir).${FMT_RESET}"
