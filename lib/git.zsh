@@ -74,9 +74,11 @@ function parse_git_dirty() {
         FLAGS+="--ignore-submodules=${GIT_STATUS_IGNORE_SUBMODULES:-dirty}"
         ;;
     esac
-	{ __git_prompt_git diff-index --quiet @ -- &&
-		echo "$ZSH_THEME_GIT_PROMPT_CLEAN" ; } ||
-			echo "$ZSH_THEME_GIT_PROMPT_DIRTY"
+	{ { __git_prompt_git diff-index --quiet @ -- ||
+		{ __git_prompt_git update-index --refresh > /dev/null &&
+			__git_prompt_git diff-index --quiet @ -- ; } ; } &&
+				echo "$ZSH_THEME_GIT_PROMPT_CLEAN" ; } ||
+					echo "$ZSH_THEME_GIT_PROMPT_DIRTY"
 #    STATUS=$(__git_prompt_git status ${FLAGS} 2> /dev/null | tail -n 1)
 #    if [[ -n $STATUS ]]; then
 #      echo "$ZSH_THEME_GIT_PROMPT_DIRTY"
