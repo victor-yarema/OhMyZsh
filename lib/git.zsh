@@ -74,12 +74,15 @@ function parse_git_dirty() {
         FLAGS+="--ignore-submodules=${GIT_STATUS_IGNORE_SUBMODULES:-dirty}"
         ;;
     esac
-    STATUS=$(__git_prompt_git status ${FLAGS} 2> /dev/null | tail -n 1)
-    if [[ -n $STATUS ]]; then
-      echo "$ZSH_THEME_GIT_PROMPT_DIRTY"
-    else
-      echo "$ZSH_THEME_GIT_PROMPT_CLEAN"
-    fi
+	{ __git_prompt_git diff-index --quiet @ -- &&
+		echo "$ZSH_THEME_GIT_PROMPT_CLEAN" ; } ||
+			echo "$ZSH_THEME_GIT_PROMPT_DIRTY"
+#    STATUS=$(__git_prompt_git status ${FLAGS} 2> /dev/null | tail -n 1)
+#    if [[ -n $STATUS ]]; then
+#      echo "$ZSH_THEME_GIT_PROMPT_DIRTY"
+#    else
+#      echo "$ZSH_THEME_GIT_PROMPT_CLEAN"
+#    fi
   else
     echo "$ZSH_THEME_GIT_PROMPT_UNKNOWN"
   fi
