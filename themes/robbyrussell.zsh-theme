@@ -1,5 +1,5 @@
 local Host="%{$fg[white]%}@%M"
-_p_ExitCode="%(?:%{$fg_bold[green]%}0 :%{$fg_bold[red]%}%? )"
+_p_ExitCode="%(?:%{$fg_bold[green]%}0:%{$fg_bold[red]%}%?)"
 PROMPT="${Host} $_p_ExitCode %{$bg[blue]$fg[white]%}%~%{$reset_color%}"
 PROMPT+=' $(git_prompt_info)'
 
